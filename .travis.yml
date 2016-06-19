@@ -1,0 +1,15 @@
+language: java
+
+jdk:
+  - openjdk7
+
+os:
+  - linux
+
+script:
+  - mvn -B org.codehaus.mojo:cobertura-maven-plugin:2.7:cobertura
+
+notifications:
+  email:
+    recipients:
+      - fcp.gris@gmail.com
