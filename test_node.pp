@@ -3,6 +3,6 @@ package { 'openjdk-8-jdk':
 }
 
 exec{'get_latest_artifact_and_deploy':
-  command => "get_latest_artifact_and_deploy.sh",
+  command => "/root/get_latest_artifact_and_deploy.sh &",
 }
 
