@@ -28,3 +28,4 @@ fi
 mvn -B versions:set -DgenerateBackupPoms=false -DnewVersion=$version
 echo "$version" > version.txt
 echo "Changed version in pom.xml files to $version"
+export version
