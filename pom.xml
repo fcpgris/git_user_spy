@@ -49,5 +49,11 @@
 		</plugins>
 	</build>
 	
+  <distributionManagement>
+    <repository>
+      <id>artifactory</id>
+      <url>http://ec2-52-69-157-79.ap-northeast-1.compute.amazonaws.com:8081/artifactory/libs-snapshot/</url>
+    </repository>
+  </distributionManagement>
 
 </project>

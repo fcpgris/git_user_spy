@@ -1,0 +1,9 @@
+<settings>
+  <servers>
+    <server>
+      <id>artifactory</id>
+      <username>deploy</username>
+      <password>deploy</password>
+    </server>
+  </servers>
+</settings>
