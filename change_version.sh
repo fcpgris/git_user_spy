@@ -26,6 +26,5 @@ fi
 
 # run maven versions plugin to set new version
 mvn -B versions:set -DgenerateBackupPoms=false -DnewVersion=$version
-echo "$version" > version.txt
+echo "PACKAGE_VERSION=$version" > version.txt
 echo "Changed version in pom.xml files to $version"
-export version
