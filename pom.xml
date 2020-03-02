@@ -55,12 +55,12 @@
 		<repository>
 			<id>central</id>
 			<name>4a4a94596fea-releases</name>
-			<url>http://artifactory.ericzhang-devops.com:8082/artifactory/libs-release-local</url>
+			<url>http://artifactory.ericzhang-devops.com:8081/artifactory/libs-release-local</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>4a4a94596fea-snapshots</name>
-			<url>http://artifactory.ericzhang-devops.com:8082/artifactory/libs-snapshot-local</url>
+			<url>http://artifactory.ericzhang-devops.com:8081/artifactory/libs-snapshot-local</url>
 		</snapshotRepository>
 	</distributionManagement>
 
