@@ -11,7 +11,7 @@ pipeline {
             steps {
                 git 'https://github.com/fcpgris/git_user_spy.git'
                 sh 'rm -f mvn.log *.jar'
-                sh 'set -o pipefail && mvn -B -X clean deploy 2>&1 | tee mvn.log'
+                sh 'set -o pipefail && mvn -B -X -s settings.xml clean deploy 2>&1 | tee mvn.log'
             }
         }
         
