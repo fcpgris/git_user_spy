@@ -20,6 +20,7 @@ pipeline {
             }
             when { equals expected: true, actual: params.DEPLOY }
             steps {
+                sh "chmod 600 deploykey.idrsa"
                 sh "scp -o StrictHostKeyChecking=no -i deploykey.idrsa target/*jar ec2-user@${params.DEPLOY_TARGET_HOST}:~"
                 sh "ssh -o StrictHostKeyChecking=no -i deploykey.idrsa ec2-user@${params.DEPLOY_TARGET_HOST} killall java"
                 sh "ssh -o StrictHostKeyChecking=no -i deploykey.idrsa ec2-user@${params.DEPLOY_TARGET_HOST} \"nohup java -jar ~/${env.artifact_name} > /dev/null 2>&1 &\""
