@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Deploy') {
             environment {
-                artifact_name = sh(returnStdout: true, script: 'basename target/*jar')
+                artifact_name = sh(returnStdout: true, script: 'basename target/*jar').trim()
             }
             when { equals expected: true, actual: params.DEPLOY }
             steps {
