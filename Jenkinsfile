@@ -18,6 +18,7 @@ pipeline {
             environment {
                 artifact_name = sh(returnStdout: true, script: 'basename target/*jar')
             }
+            when { equals expected: true, actual: params.DEPLOY }
             steps {
                 sh "scp -o StrictHostKeyChecking=no -i deploykey.idrsa target/*jar ec2-user@${params.DEPLOY_TARGET_HOST}:~"
                 sh "ssh -o StrictHostKeyChecking=no -i deploykey.idrsa ec2-user@${params.DEPLOY_TARGET_HOST} killall java"
