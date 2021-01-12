@@ -4,8 +4,8 @@ podTemplate(containers: [
   image: 'maven:3.3.9-jdk-8-alpine', 
   ttyEnabled: true, 
   command: 'cat',
-  resourceLimitCpu: '500m',
-  resourceLimitMemory: '200Mi')
+  resourceLimitCpu: '1000m',
+  resourceLimitMemory: '400Mi')
   ]) {
 
   node(POD_LABEL) {
