@@ -1,18 +1,4 @@
-podTemplate(containers: [
-  containerTemplate(
-    name: 'maven', 
-    image: 'maven:3.3.9-jdk-8-alpine', 
-    ttyEnabled: true, 
-    command: 'cat',
-    resourceLimitCpu: '1000m',
-    resourceLimitMemory: '1024Mi'),
-  containerTemplate(
-    name: 'docker', 
-    image: 'docker:20.10.2', 
-    ttyEnabled: true, 
-    command: 'cat')
-  ]) {
-  
+
 podTemplate(yaml: '''
 apiVersion: v1
 kind: Pod
