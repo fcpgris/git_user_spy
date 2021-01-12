@@ -32,5 +32,11 @@ spec:
           sh 'mvn -U -B -Dsettings.security=settings-security.xml -s settings.xml clean deploy'
       }
     }
+    
+    stage('Build Docker image') {
+      container('docker') {
+          sh 'docker build -t git_user_spy .'
+      }
+    }
   }
 }
