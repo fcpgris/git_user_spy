@@ -1,11 +1,11 @@
-/**
- * This pipeline will execute a simple Maven build
- */
-
-def label = "maven-${UUID.randomUUID().toString()}"
-
 podTemplate(containers: [
-  containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
+  containerTemplate(
+  name: 'maven', 
+  image: 'maven:3.3.9-jdk-8-alpine', 
+  ttyEnabled: true, 
+  command: 'cat',
+  resourceLimitCpu: '500m',
+  resourceLimitMemory: '200Mi')
   ]) {
 
   node(POD_LABEL) {
