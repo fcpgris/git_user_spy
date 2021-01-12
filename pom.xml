@@ -14,7 +14,7 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<java.version>13</java.version>
+		<java.version>8</java.version>
 	</properties>
 
 	<dependencies>
@@ -53,14 +53,14 @@
 
 	<distributionManagement>
 		<repository>
-			<id>central</id>
-			<name>4a4a94596fea-releases</name>
-			<url>http://artifactory.ericzhang-devops.com:8081/artifactory/libs-release-local</url>
+			<id>nexus-releases</id>
+			<name>nexus3 hosted release repo</name>
+			<url>http://nexus3.ericzhang-devops.com:8081/repository/maven-releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>snapshots</id>
-			<name>4a4a94596fea-snapshots</name>
-			<url>http://artifactory.ericzhang-devops.com:8081/artifactory/libs-snapshot-local</url>
+			<id>nexus-snapshots</id>
+			<name>exus3 hosted snapshot repo</name>
+			<url>http://nexus3.ericzhang-devops.com:8081/repository/maven-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 

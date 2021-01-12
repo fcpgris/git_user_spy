@@ -1,31 +1,19 @@
-pipeline {
-    agent any
+/**
+ * This pipeline will execute a simple Maven build
+ */
 
-    parameters {
-        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Deploy if build passed')
-        string(name: 'DEPLOY_TARGET_HOST', defaultValue: 'gituserspy.ericzhang-devops.com', description: 'Prod env IP')
+def label = "maven-${UUID.randomUUID().toString()}"
+
+podTemplate(containers: [
+  containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat')
+  ]) {
+
+  node(POD_LABEL) {
+    stage('Build a Maven project') {
+      git 'https://github.com/fcpgris/git_user_spy.git'
+      container('maven') {
+          sh 'mvn -U -B -Dsettings.security=settings-security.xml -s settings.xml clean deploy'
+      }
     }
-
-    stages {
-        stage('Build') { 
-            steps {
-                git 'https://github.com/fcpgris/git_user_spy.git'
-                sh 'rm -f mvn.log *.jar'
-                sh 'set -o pipefail && mvn -B -X -s settings.xml clean deploy 2>&1 | tee mvn.log'
-            }
-        }
-        stage('Deploy') {
-            environment {
-                artifact_name = sh(returnStdout: true, script: 'basename target/*jar').trim()
-            }
-            when { equals expected: true, actual: params.DEPLOY }
-            steps {
-                sh "chmod 600 deploykey.idrsa"
-                sh "scp -o StrictHostKeyChecking=no -i deploykey.idrsa target/*jar ec2-user@${params.DEPLOY_TARGET_HOST}:~"
-                sh "ssh -o StrictHostKeyChecking=no -i deploykey.idrsa ec2-user@${params.DEPLOY_TARGET_HOST} killall java || true"
-                sh "ssh -o StrictHostKeyChecking=no -i deploykey.idrsa ec2-user@${params.DEPLOY_TARGET_HOST} \"nohup java -jar ~/${env.artifact_name} > /dev/null 2>&1 &\""
-            }
-        }
-    } // end of stages
-    
+  }
 }

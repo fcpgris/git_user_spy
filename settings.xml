@@ -2,32 +2,27 @@
 <settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd" xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <servers>
     <server>
-      <username>maven</username>
-      <password>APA8xM9rYtPg6FTaFiJ5T1TmXcm</password>
-      <id>central</id>
+      <id>nexus-releases</id>
+      <username>jenkins</username>
+      <password>{9lNO1n1S/NkHGHD+5oD+8Q4szkBrgbGJOWS17/nCXCU=}</password>
     </server>
     <server>
-      <username>maven</username>
-      <password>APA8xM9rYtPg6FTaFiJ5T1TmXcm</password>
-      <id>snapshots</id>
+      <id>nexus-snapshots</id>
+      <username>jenkins</username>
+      <password>{9lNO1n1S/NkHGHD+5oD+8Q4szkBrgbGJOWS17/nCXCU=}</password>
     </server>
   </servers>
   <profiles>
     <profile>
+      <id>nexus3</id>
       <repositories>
         <repository>
           <snapshots>
             <enabled>false</enabled>
           </snapshots>
-          <id>central</id>
-          <name>libs-release</name>
-          <url>http://artifactory.ericzhang-devops.com:8081/artifactory/libs-release</url>
-        </repository>
-        <repository>
-          <snapshots />
-          <id>snapshots</id>
-          <name>libs-snapshot</name>
-          <url>http://artifactory.ericzhang-devops.com:8081/artifactory/libs-snapshot</url>
+          <id>nexus3-public</id>
+          <name>group repo including central, release, and snapshot</name>
+          <url>http://nexus3.ericzhang-devops.com/repository/maven-public</url>
         </repository>
       </repositories>
       <pluginRepositories>
@@ -35,21 +30,14 @@
           <snapshots>
             <enabled>false</enabled>
           </snapshots>
-          <id>central</id>
-          <name>libs-release</name>
-          <url>http://artifactory.ericzhang-devops.com:8081/artifactory/libs-release</url>
-        </pluginRepository>
-        <pluginRepository>
-          <snapshots />
-          <id>snapshots</id>
-          <name>libs-snapshot</name>
-          <url>http://artifactory.ericzhang-devops.com:8081/artifactory/libs-snapshot</url>
+          <id>nexus3-public</id>
+          <name>group repo including central, release, and snapshot</name>
+          <url>http://nexus3.ericzhang-devops.com/repository/maven-public</url>
         </pluginRepository>
       </pluginRepositories>
-      <id>artifactory</id>
     </profile>
   </profiles>
   <activeProfiles>
-    <activeProfile>artifactory</activeProfile>
+    <activeProfile>nexus3</activeProfile>
   </activeProfiles>
 </settings>
