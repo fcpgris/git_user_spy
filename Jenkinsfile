@@ -36,7 +36,7 @@ spec:
     stage('Build Docker image') {
       container('docker') {
           //sh 'docker build -t git_user_spy .'
-          docker.withRegistry('http://nexus3.ericzhang-devops.com/repository/docker-release/', 'nexus3_deploy_user') {
+          docker.withRegistry('http://nexus3.ericzhang-devops.com:8085/repository/docker-release/', 'nexus3_deploy_user') {
 
             def customImage = docker.build("git_user_spy:${env.BUILD_ID}")
 
