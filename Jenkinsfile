@@ -5,7 +5,7 @@ podTemplate(containers: [
   ttyEnabled: true, 
   command: 'cat',
   resourceLimitCpu: '1000m',
-  resourceLimitMemory: '400Mi')
+  resourceLimitMemory: '1024Mi')
   ]) {
 
   node(POD_LABEL) {
