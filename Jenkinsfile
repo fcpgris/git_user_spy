@@ -21,24 +21,16 @@ spec:
     command: ['cat']
     tty: true
     volumeMounts:
-    - name: settings-xml
-      mountPath: /root/.m2/settings.xml
-      subPath: settings.xml
-      readOnly: true
-    - name: settings-security-xml
-      mountPath: /root/.m2/settings-security.xml
-      subPath: settings-security.xml
-      readOnly: true
+    - name: maven-settings
+      mountPath: /root/.m2
   volumes:
   - name: dockersock
     hostPath:
       path: /var/run/docker.sock
-  - name: settings-xml
+  - name: maven-settings
     configMap:
-      name: settings-xml
-  - name: settings-security-xml
-    configMap:
-      name: settings-security-xml
+      name: maven-settings
+
 ''') {
   node(POD_LABEL) {
     stage('Build a Maven project') {
