@@ -41,6 +41,7 @@ spec:
       git 'https://github.com/fcpgris/git_user_spy.git'
       container('maven') {
           sh 'whoami'
+          sh 'cd && pwd'
           sh 'mvn -U -B clean deploy'
       }
     }
