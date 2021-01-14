@@ -16,13 +16,15 @@ spec:
     volumeMounts:
     - name: dockersock
       mountPath: /var/run/docker.sock
+    - name: maven-settings
+      mountPath: /root/.m2
   - name: docker
     image: docker:latest
     command: ['cat']
     tty: true
     volumeMounts:
-    - name: maven-settings
-      mountPath: /root/.m2/
+    - name: dockersock
+      mountPath: /var/run/docker.sock
   volumes:
   - name: dockersock
     hostPath:
