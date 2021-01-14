@@ -15,7 +15,11 @@ spec:
         memory: "1024Mi"
     volumeMounts:
     - name: maven-settings
-      mountPath: /root/.m2
+      mountPath: /root/.m2/settings.xml
+      subPath: settings.xml
+    - name: maven-settings
+      mountPath: /root/.m2/settings-security.xml
+      subPath: settings-security.xml
   - name: docker
     image: docker:latest
     command: ['cat']
