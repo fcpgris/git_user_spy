@@ -13,13 +13,18 @@ spec:
       limits:
         cpu: "1"
         memory: "1024Mi"
+    volumeMounts:
+    - name: dockersock
+      mountPath: /var/run/docker.sock
   - name: docker
     image: docker:latest
     command: ['cat']
     tty: true
     volumeMounts:
-    - name: dockersock
-      mountPath: /var/run/docker.sock
+    - name: settings-xml
+      mountPath: /root/.m2/settings.xml
+    - name: settings-security-xml
+      mountPath: /root/.m2/settings-security.xml
   volumes:
   - name: dockersock
     hostPath:
@@ -36,7 +41,7 @@ spec:
       git 'https://github.com/fcpgris/git_user_spy.git'
       container('maven') {
           sh 'whoami'
-          sh 'mvn -U -B -Dsettings.security=settings-security.xml -s settings.xml clean deploy'
+          sh 'mvn -U -B clean deploy'
       }
     }
     
