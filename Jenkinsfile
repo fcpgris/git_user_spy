@@ -36,15 +36,9 @@ spec:
   - name: settings-xml
     configMap:
       name: settings-xml
-      items:
-        - key: settings.xml
-          path: settings.xml
   - name: settings-security-xml
     configMap:
       name: settings-security-xml
-      items:
-        - key: settings-security.xml
-          path: settings-security.xml
 ''') {
   node(POD_LABEL) {
     stage('Build a Maven project') {
