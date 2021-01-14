@@ -22,9 +22,9 @@ spec:
     tty: true
     volumeMounts:
     - name: settings-xml
-      mountPath: /root/.m2/settings.xml
+      mountPath: /root/.m2
     - name: settings-security-xml
-      mountPath: /root/.m2/settings-security.xml
+      mountPath: /root/.m2
   volumes:
   - name: dockersock
     hostPath:
@@ -32,9 +32,15 @@ spec:
   - name: settings-xml
     configMap:
       name: settings-xml
+      items:
+        - key: settings.xml
+          path: settings.xml
   - name: settings-security-xml
     configMap:
       name: settings-security-xml
+      items:
+        - key: settings-security.xml
+          path: settings-security.xml
 ''') {
   node(POD_LABEL) {
     stage('Build a Maven project') {
