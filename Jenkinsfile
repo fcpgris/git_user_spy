@@ -42,7 +42,8 @@ spec:
       container('maven') {
           sh 'whoami'
           sh 'cd && pwd'
-          sh 'mvn -U -B clean deploy'
+          sh 'ls -l ~/.m2/'
+          sh 'mvn -X -U -B clean deploy'
       }
     }
     
