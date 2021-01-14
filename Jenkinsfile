@@ -14,8 +14,6 @@ spec:
         cpu: "1"
         memory: "1024Mi"
     volumeMounts:
-    - name: dockersock
-      mountPath: /var/run/docker.sock
     - name: maven-settings
       mountPath: /root/.m2
   - name: docker
