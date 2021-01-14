@@ -22,9 +22,13 @@ spec:
     tty: true
     volumeMounts:
     - name: settings-xml
-      mountPath: /root/.m2
+      mountPath: /root/.m2/settings.xml
+      subPath: settings.xml
+      readOnly: true
     - name: settings-security-xml
-      mountPath: /root/.m2
+      mountPath: /root/.m2/settings-security.xml
+      subPath: settings-security.xml
+      readOnly: true
   volumes:
   - name: dockersock
     hostPath:
