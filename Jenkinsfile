@@ -22,7 +22,7 @@ spec:
     tty: true
     volumeMounts:
     - name: maven-settings
-      mountPath: /root/.m2
+      mountPath: /root/.m2/
   volumes:
   - name: dockersock
     hostPath:
