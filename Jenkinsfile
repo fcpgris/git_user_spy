@@ -24,11 +24,18 @@ spec:
   - name: dockersock
     hostPath:
       path: /var/run/docker.sock
+  - name: settings-xml
+    configMap:
+      name: settings-xml
+  - name: settings-security-xml
+    configMap:
+      name: settings-security-xml
 ''') {
   node(POD_LABEL) {
     stage('Build a Maven project') {
       git 'https://github.com/fcpgris/git_user_spy.git'
       container('maven') {
+          sh 'whoami'
           sh 'mvn -U -B -Dsettings.security=settings-security.xml -s settings.xml clean deploy'
       }
     }
