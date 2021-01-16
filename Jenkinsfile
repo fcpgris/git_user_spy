@@ -103,13 +103,25 @@ spec:
           sh "./kubectl apply -f deployment/service-${target_env}.yaml -n ${target_env}"
           sleep(time:20,unit:"SECONDS")
           sh "./kubectl get svc --namespace ${target_env} git-user-spy-${target_env}"
-          sh "./kubectl get svc --namespace ${target_env} git-user-spy-${target_env} --template \"{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}\""
+          def test_url = sh(script: "./kubectl get svc --namespace ${target_env} git-user-spy-${target_env} --template \"{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}\"", returnStdout: true).trim()
+          writeFile file: "test_url", text: test_url
         }
       }
     }
     
     stage('Testing') {
-      
+      def test_url = readFile(file: 'test_url')
+      sh "curl -o /dev/null -s -w \"%{http_code}\n\" ${test_url}" 
     }//end of stage
+    
+    stage('promote package') {
+      if ( env.BRANCH_NAME.contains("release") ) {
+        echo "promoting package (dummy)"
+      } else {
+        echo "No need to promote package"
+        currentBuild.result = 'SUCCESS'
+        return
+      }
+    }
   }
 }
