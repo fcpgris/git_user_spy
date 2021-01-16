@@ -78,9 +78,10 @@ spec:
       container('kubectl') {
         withAWS(region:'ap-east-1',credentials:'rbac-user') {
           sh 'aws eks --region ap-east-1 update-kubeconfig --name eksworkshop-eksctl'
+          sh 'kubectl get pods -n rbac-test'
         }
         echo "deploy environment!"
-        // generate deployment and service yaml
+        /*// generate deployment and service yaml
         def target_env = 'tesing'
         def docker_image_url = "${repo_url}:${docker_repo_port}/${docker_image_version}"
         echo "docker_image_version=${docker_image_version}"
@@ -92,7 +93,7 @@ spec:
         echo service_yaml
         withKubeConfig([credentialsId: 'kubernetes-config']) {
           sh 'kubectl get pods'  
-        }  
+        }  */
       }//end of container
     }//end of stage
     
