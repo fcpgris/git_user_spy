@@ -78,16 +78,25 @@ spec:
       }
     }
     
-    stage('aws test') {
+    stage('deploy') {
       container('awscli') {
         sh 'aws --version'
-        withAWS(region:'ap-east-1',credentials:'rbac-user') {
-          echo "11111111"
+        withAWS(region:'ap-east-1',credentials:'eks-deploy') {
           sh 'aws eks --region ap-east-1 update-kubeconfig --name eksworkshop-eksctl'
-          echo "starting kubectl"
-          sh 'ls -l ~/.kube || true'
           sh 'curl -O https://storage.googleapis.com/kubernetes-release/release/v1.20.2/bin/linux/amd64/kubectl && chmod +x kubectl'
-          sh './kubectl get pods -n rbac-test'
+          sh './kubectl get pods -n testing'
+          
+          echo "deploy environment!"
+          // generate deployment and service yaml
+          def target_env = 'tesing'
+          def docker_image_url = "${repo_url}:${docker_repo_port}/${docker_image_version}"
+          echo "docker_image_version=${docker_image_version}"
+          def deployment_yaml = readFile(file: 'deployment/deployment.yaml')
+          def service_yaml = readFile(file: 'deployment/service.yaml')
+          deployment_yaml = deployment_yaml.replaceAll('ENV', target_env).replaceAll('IMAGE', docker_image_url)
+          service_yaml = service_yaml.replaceAll('ENV', target_env)
+          echo deployment_yaml
+          echo service_yaml
         }
       }
     }
