@@ -40,7 +40,7 @@ spec:
     stage('Build Maven project') {
       checkout scm
       container('maven') {
-          sh 'mvn -B clean deploy'
+          sh 'mvn -X -B clean deploy'
           sh "env;branch_prefix=\$(echo -n ${env.BRANCH_NAME} | sed -e 's|-.*||'); " +  'mvn -B sonar:sonar -Dsonar.login=4f607ae198fae2aa423bacd47959adeea6c36050 -Dsonar.projectKey=git_user_spy-$branch_prefix -Dsonar.projectName=git_user_spy-$branch_prefix'
       }
     }
