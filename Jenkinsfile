@@ -55,7 +55,6 @@ spec:
       }
       container('docker') {
           docker.withRegistry('https://nexus3.ericzhang-devops.com:8485/repository/docker-release/', 'nexus3_deploy_user') {
-            def branch_name = 
             def customImage = docker.build("git_user_spy:${env.BRANCH_NAME}-${env.BUILD_ID}")
             customImage.push()
           }
