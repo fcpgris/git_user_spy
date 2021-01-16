@@ -41,7 +41,7 @@ spec:
       git 'https://github.com/fcpgris/git_user_spy.git'
       container('maven') {
           sh 'mvn -X -U -B clean deploy'
-          sh 'mvn sonar:sonar -Dsonar.login=4f607ae198fae2aa423bacd47959adeea6c36050'
+          sh "mvn -B sonar:sonar -Dsonar.login=4f607ae198fae2aa423bacd47959adeea6c36050 -Dsonar.projectName=git_user_spy-${env.BRANCH_NAME%ster*}"
       }
     }
     
