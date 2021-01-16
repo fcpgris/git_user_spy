@@ -38,7 +38,8 @@ spec:
 ''') {
   node(POD_LABEL) {
     stage('Build a Maven project') {
-      git 'https://github.com/fcpgris/git_user_spy.git'
+      checkout scm
+      //git 'https://github.com/fcpgris/git_user_spy.git'
       //checkout([$class: 'GitSCM', branches: [[name: '*/*']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/fcpgris/git_user_spy.git']]])
       container('maven') {
           sh 'mvn -X -U -B clean deploy'
