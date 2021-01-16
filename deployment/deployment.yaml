@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: git-user-spy-ENV-deployment
+spec:
+  selector:
+    matchLabels:
+      app: git-user-spy-ENV
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: git-user-spy-ENV
+    spec:
+      containers:
+      - name: git-user-spy
+        image: IMAGE
+        ports:
+        - containerPort: 8080

@@ -76,14 +76,12 @@ spec:
       def docker_image_url = repo_url + ':' + docker_repo_port + '/' 
         + docker_image_version
       echo "docker_image_version=${docker_image_version}"
-      sh "cat deployment/deployment.yaml |" 
-         + "sed -e 's|ENV|${target_env}|g' -e 's|IMAGE|${docker_image_url}|' "
-         + "> deployment_${target_env}.yaml"
-      sh "cat deployment/service.yaml |"
-        + "sed -e 's|ENV|${target_env}|g'"
-        + "> service_${target_env}.yaml"
-      sh "cat service_${target_env}.yaml"
-      sh "cat deployment_${target_env}.yaml"
+      def deployment_yaml = readFile(file: 'deployment/deployment.yaml')
+      def service_yaml = readFile(file: 'deployment/service.yaml')
+      deployment_yaml = deployment_yaml.replaceAll('ENV', target_env).replaceAll('IMAGE', docker_image_url)
+      service_yaml = service_yaml.replaceAll('ENV', target_env)
+      echo deployment_yaml
+      echo service_yaml
       
     }
     
