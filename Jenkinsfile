@@ -86,7 +86,8 @@ spec:
           sh 'aws eks --region ap-east-1 update-kubeconfig --name eksworkshop-eksctl'
           echo "starting kubectl"
           sh 'ls -l ~/.kube || true'
-          sh 'kubectl get pods -n rbac-test'
+          sh 'curl -O https://storage.googleapis.com/kubernetes-release/release/v1.20.2/bin/linux/amd64/kubectl && chmod +x kubectl'
+          sh './kubectl get pods -n rbac-test'
         }
       }
     }
