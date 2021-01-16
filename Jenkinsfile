@@ -73,7 +73,7 @@ spec:
       echo "deploy environment!"
       // generate deployment and service yaml
       def target_env = 'tesing'
-      def docker_image_url = "${repo_url}:${docker_repo_port}/${docker_image_version}""
+      def docker_image_url = "${repo_url}:${docker_repo_port}/${docker_image_version}"
       echo "docker_image_version=${docker_image_version}"
       def deployment_yaml = readFile(file: 'deployment/deployment.yaml')
       def service_yaml = readFile(file: 'deployment/service.yaml')
