@@ -59,6 +59,11 @@ spec:
       currentBuild.result = 'SUCCESS'
       return
     }
+    if ( env.BRANCH_NAME.contains("master") ) {
+      echo "No need to create and upload docker image for master branch"
+      currentBuild.result = 'SUCCESS'
+      return
+    }
     
     def repo_url = 'nexus3.ericzhang-devops.com'
     def docker_repo = 'docker-testing'
