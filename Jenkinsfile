@@ -102,6 +102,7 @@ spec:
           sh "./kubectl apply -f deployment/deployment-${target_env}.yaml -n ${target_env}"
           sh "./kubectl apply -f deployment/service-${target_env}.yaml -n ${target_env}"
           sleep(time:20,unit:"SECONDS")
+          sh "kubectl get svc --namespace default git-user-spy-${target_env} --template \"{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}\""
         }
       }
     }
