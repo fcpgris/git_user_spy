@@ -39,8 +39,6 @@ spec:
   node(POD_LABEL) {
     stage('Build Maven project') {
       checkout scm
-      //git 'https://github.com/fcpgris/git_user_spy.git'
-      //checkout([$class: 'GitSCM', branches: [[name: '*/*']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/fcpgris/git_user_spy.git']]])
       container('maven') {
           sh 'mvn -B clean deploy'
           sh "env;branch_prefix=\$(echo -n ${env.BRANCH_NAME} | sed -e 's|-.*||'); " +  'mvn -B sonar:sonar -Dsonar.login=4f607ae198fae2aa423bacd47959adeea6c36050 -Dsonar.projectKey=git_user_spy-$branch_prefix -Dsonar.projectName=git_user_spy-$branch_prefix'
@@ -53,16 +51,18 @@ spec:
       return
     }
     
+    def repo_url = 'nexus3.ericzhang-devops.com'
+    def docker_repo = 'docker-testing'
+    def docker_repo_port = '8483'
+    if(env.BRANCH_NAME.equals("release")) {
+      docker_repo = 'docker-staging'
+      docker_repo_port = '8484'
+    }
+    def docker_image_version = "git_user_spy:${env.BRANCH_NAME}-${env.BUILD_ID}"
+    
     stage('Build and Upload Docker image') {
       container('docker') {
-          def docker_repo = 'docker-testing'
-          def docker_repo_port = '8483'
-          if(env.BRANCH_NAME.equals("release")) {
-            docker_repo = 'docker-staging'
-            docker_repo_port = '8484'
-          }
-          def docker_image_version = "git_user_spy:${env.BRANCH_NAME}-${env.BUILD_ID}"
-          docker.withRegistry("https://nexus3.ericzhang-devops.com:${docker_repo_port}/repository/${docker_repo}/", 'nexus3_deploy_user') {
+          docker.withRegistry("https://${repo_url}:${docker_repo_port}/repository/${docker_repo}/", 'nexus3_deploy_user') {
             def customImage = docker.build(docker_image_version)
             customImage.push()
           }
@@ -71,6 +71,19 @@ spec:
     
     stage('Deploy') {
       echo "deploy environment!"
+      // generate deployment and service yaml
+      def target_env = 'tesing'
+      def docker_image_url = repo_url + ':' + docker_repo_port + '/' 
+        + docker_image_version
+      echo "docker_image_version=${docker_image_version}"
+      sh "cat deployment/deployment.yaml |" 
+         + "sed -e 's|ENV|${target_env}|g' -e 's|IMAGE|${docker_image_url}|' "
+         + "> deployment_${target_env}.yaml"
+      sh "cat deployment/service.yaml |"
+        + "sed -e 's|ENV|${target_env}|g'"
+        + "> service_${target_env}.yaml"
+      sh "cat service_${target_env}.yaml"
+      sh "cat deployment_${target_env}.yaml"
       
     }
     
