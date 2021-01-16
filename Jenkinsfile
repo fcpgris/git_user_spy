@@ -74,6 +74,12 @@ spec:
       }
     }
     
+    stage('aws test') {
+      container('amazon/aws-cli') {
+        sh 'aws --version'
+      }
+    }
+    
     stage('Deploy') {
       container('kubectl') {
         withAWS(region:'ap-east-1',credentials:'rbac-user') {
