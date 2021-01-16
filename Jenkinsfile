@@ -48,7 +48,8 @@ spec:
     }
     
     stage('Build and Upload Docker image') {
-      if (${env.BRANCH_NAME} ==~ /feature-/) {
+      echo env.BRANCH_NAME
+      if ( "${env.BRANCH_NAME}" ==~ /feature-/) {
         echo "No need to create and upload docker image for feature branch"
         currentBuild.result = 'SUCCESS'
         return
