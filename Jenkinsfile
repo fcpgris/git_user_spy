@@ -86,7 +86,7 @@ spec:
           sh 'aws eks --region ap-east-1 update-kubeconfig --name eksworkshop-eksctl'
           echo "starting kubectl"
           sh 'ls -l ~/.kube || true'
-          //sh 'kubectl get pods -n rbac-test'
+          sh 'kubectl get pods -n rbac-test'
         }
       }
     }
