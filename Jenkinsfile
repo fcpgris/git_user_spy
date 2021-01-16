@@ -82,15 +82,16 @@ spec:
       container('awscli') {
         sh 'aws --version'
         withAWS(region:'ap-east-1',credentials:'rbac-user') {
+          echo "11111111"
           sh 'aws eks --region ap-east-1 update-kubeconfig --name eksworkshop-eksctl'
           echo "starting kubectl"
           sh 'ls -l ~/.kube || true'
-          sh 'kubectl get pods -n rbac-test'
+          //sh 'kubectl get pods -n rbac-test'
         }
       }
     }
     
-    stage('Deploy') {
+    /*stage('Deploy') {
       container('kubectl') {
         withAWS(region:'ap-east-1',credentials:'rbac-user') {
           sh 'aws eks --region ap-east-1 update-kubeconfig --name eksworkshop-eksctl'
@@ -99,7 +100,7 @@ spec:
           sh 'kubectl get pods -n rbac-test'
         }
         echo "deploy environment!"
-        /*// generate deployment and service yaml
+        // generate deployment and service yaml
         def target_env = 'tesing'
         def docker_image_url = "${repo_url}:${docker_repo_port}/${docker_image_version}"
         echo "docker_image_version=${docker_image_version}"
@@ -111,9 +112,9 @@ spec:
         echo service_yaml
         withKubeConfig([credentialsId: 'kubernetes-config']) {
           sh 'kubectl get pods'  
-        }  */
+        }  
       }//end of container
     }//end of stage
-    
+    */
   }
 }
