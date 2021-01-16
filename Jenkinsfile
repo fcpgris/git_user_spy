@@ -47,13 +47,13 @@ spec:
       }
     }
     
+    if ( env.BRANCH_NAME.contains("feature-") ) {
+      echo "No need to create and upload docker image for feature branch"
+      currentBuild.result = 'SUCCESS'
+      return
+    }
+    
     stage('Build and Upload Docker image') {
-      echo env.BRANCH_NAME
-      if ( env.BRANCH_NAME.contains("feature-") ) {
-        echo "No need to create and upload docker image for feature branch"
-        currentBuild.result = 'SUCCESS'
-        return
-      }
       container('docker') {
           docker.withRegistry('https://nexus3.ericzhang-devops.com:8485/repository/docker-release/', 'nexus3_deploy_user') {
             def customImage = docker.build("git_user_spy:${env.BRANCH_NAME}-${env.BUILD_ID}")
