@@ -27,6 +27,10 @@ spec:
     volumeMounts:
     - name: dockersock
       mountPath: /var/run/docker.sock
+  - name: kubectl
+    image: bitnami/kubectl:latest
+    command: ['cat']
+    tty: true
   volumes:
   - name: dockersock
     hostPath:
@@ -71,18 +75,20 @@ spec:
     }
     
     stage('Deploy') {
-      echo "deploy environment!"
-      // generate deployment and service yaml
-      def target_env = 'tesing'
-      def docker_image_url = "${repo_url}:${docker_repo_port}/${docker_image_version}"
-      echo "docker_image_version=${docker_image_version}"
-      def deployment_yaml = readFile(file: 'deployment/deployment.yaml')
-      def service_yaml = readFile(file: 'deployment/service.yaml')
-      deployment_yaml = deployment_yaml.replaceAll('ENV', target_env).replaceAll('IMAGE', docker_image_url)
-      service_yaml = service_yaml.replaceAll('ENV', target_env)
-      echo deployment_yaml
-      echo service_yaml
-      sh 'kubectl get svc'
+      container('kubectl') {
+        echo "deploy environment!"
+        // generate deployment and service yaml
+        def target_env = 'tesing'
+        def docker_image_url = "${repo_url}:${docker_repo_port}/${docker_image_version}"
+        echo "docker_image_version=${docker_image_version}"
+        def deployment_yaml = readFile(file: 'deployment/deployment.yaml')
+        def service_yaml = readFile(file: 'deployment/service.yaml')
+        deployment_yaml = deployment_yaml.replaceAll('ENV', target_env).replaceAll('IMAGE', docker_image_url)
+        service_yaml = service_yaml.replaceAll('ENV', target_env)
+        echo deployment_yaml
+        echo service_yaml
+        sh 'kubectl get svc'
+      }
       
     }
     
