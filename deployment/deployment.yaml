@@ -17,3 +17,5 @@ spec:
         image: IMAGE
         ports:
         - containerPort: 8080
+      imagePullSecrets:
+      - name: ENV-registry
