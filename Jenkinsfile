@@ -87,7 +87,7 @@ spec:
         service_yaml = service_yaml.replaceAll('ENV', target_env)
         echo deployment_yaml
         echo service_yaml
-        sh 'kubectl get svc'
+        sh 'kubectl get pod'
       }
       
     }
