@@ -34,6 +34,7 @@ spec:
   - name: maven-settings
     configMap:
       name: maven-settings
+  serviceAccountName: jenkins
 
 ''') {
   node(POD_LABEL) {
@@ -81,6 +82,7 @@ spec:
       service_yaml = service_yaml.replaceAll('ENV', target_env)
       echo deployment_yaml
       echo service_yaml
+      sh 'kubectl get svc'
       
     }
     
