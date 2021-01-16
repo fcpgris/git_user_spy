@@ -55,8 +55,15 @@ spec:
     
     stage('Build and Upload Docker image') {
       container('docker') {
-          docker.withRegistry('https://nexus3.ericzhang-devops.com:8485/repository/docker-release/', 'nexus3_deploy_user') {
-            def customImage = docker.build("git_user_spy:${env.BRANCH_NAME}-${env.BUILD_ID}")
+          def docker_repo = 'docker-testing'
+          def docker_repo_port = '8483'
+          if(env.BRANCH_NAME.equals("release")) {
+            docker_repo = 'docker-staging'
+            docker_repo_port = '8484'
+          }
+          def docker_image_version = "git_user_spy:${env.BRANCH_NAME}-${env.BUILD_ID}"
+          docker.withRegistry("https://nexus3.ericzhang-devops.com:${docker_repo_port}/repository/${docker_repo}/", 'nexus3_deploy_user') {
+            def customImage = docker.build(docker_image_version)
             customImage.push()
           }
       }
