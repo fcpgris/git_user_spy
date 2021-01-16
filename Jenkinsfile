@@ -37,7 +37,7 @@ spec:
 
 ''') {
   node(POD_LABEL) {
-    stage('Build a Maven project') {
+    stage('Build Maven project') {
       checkout scm
       //git 'https://github.com/fcpgris/git_user_spy.git'
       //checkout([$class: 'GitSCM', branches: [[name: '*/*']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/fcpgris/git_user_spy.git']]])
@@ -47,16 +47,23 @@ spec:
       }
     }
     
-    stage('Build Docker image') {
+    stage('Build and Upload Docker image') {
       container('docker') {
           docker.withRegistry('https://nexus3.ericzhang-devops.com:8485/repository/docker-release/', 'nexus3_deploy_user') {
-
             def customImage = docker.build("git_user_spy:${env.BUILD_ID}")
-
-            /* Push the container to the custom Registry */
             customImage.push()
           }
       }
     }
+    
+    stage('Deploy') {
+      when {
+        branch 'develop'
+      }
+      steps {
+        echo 'deploying integration environment'
+      }
+    }
+    
   }
 }
