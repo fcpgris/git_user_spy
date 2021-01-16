@@ -87,10 +87,11 @@ spec:
         service_yaml = service_yaml.replaceAll('ENV', target_env)
         echo deployment_yaml
         echo service_yaml
-        sh 'kubectl get pod'
-      }
-      
-    }
+        withKubeConfig([credentialsId: 'kubernetes-config']) {
+          sh 'kubectl get pods'  
+        }  
+      }//end of container
+    }//end of stage
     
   }
 }
