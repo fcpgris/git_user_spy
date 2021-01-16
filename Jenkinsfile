@@ -97,6 +97,11 @@ spec:
           service_yaml = service_yaml.replaceAll('ENV', target_env)
           echo deployment_yaml
           echo service_yaml
+          writeFile file: "deployment/deployment-${target_env}.yaml", text: deployment_yaml
+          writeFile file: "deployment/service-${target_env}.yaml", text: service_yaml
+          sh "./kubectl apply -f deployment/deployment-${target_env}.yaml -n ${target_env}"
+          sh "./kubectl apply -f deployment/service-${target_env}.yaml -n ${target_env}"
+          sleep(time:20,unit:"SECONDS")
         }
       }
     }
