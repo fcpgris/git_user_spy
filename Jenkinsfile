@@ -76,6 +76,9 @@ spec:
     
     stage('Deploy') {
       container('kubectl') {
+        withAWS(region:'ap-east-1',credentials:'rbac-user') {
+          sh 'aws eks --region ap-east-1 update-kubeconfig --name eksworkshop-eksctl'
+        }
         echo "deploy environment!"
         // generate deployment and service yaml
         def target_env = 'tesing'
