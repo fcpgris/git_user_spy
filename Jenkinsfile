@@ -27,6 +27,10 @@ spec:
     volumeMounts:
     - name: dockersock
       mountPath: /var/run/docker.sock
+  - name: awscli
+    image: amazon/aws-cli
+    command: ['cat']
+    tty: true
   - name: kubectl
     image: bitnami/kubectl:latest
     command: ['cat']
@@ -75,7 +79,7 @@ spec:
     }
     
     stage('aws test') {
-      container('amazon/aws-cli') {
+      container('awscli') {
         sh 'aws --version'
       }
     }
