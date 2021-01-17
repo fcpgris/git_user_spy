@@ -31,10 +31,6 @@ spec:
     image: amazon/aws-cli
     command: ['cat']
     tty: true
-  - name: kubectl
-    image: bitnami/kubectl:latest
-    command: ['cat']
-    tty: true
   volumes:
   - name: dockersock
     hostPath:
@@ -59,7 +55,7 @@ spec:
       currentBuild.result = 'SUCCESS'
       return
     }
-    if ( env.BRANCH_NAME.contains("master") ) {
+    if ( !env.BRANCH_NAME ) {
       echo "No need to create and upload docker image for master branch"
       currentBuild.result = 'SUCCESS'
       return
