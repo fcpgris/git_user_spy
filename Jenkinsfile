@@ -50,13 +50,13 @@ spec:
       }
     }
     
-    if ( env.BRANCH_NAME.contains("feature-") ) {
-      echo "No need to create and upload docker image for feature branch"
+    if ( !env.BRANCH_NAME ) {
+      echo "No need to create and upload docker image for master branch"
       currentBuild.result = 'SUCCESS'
       return
     }
-    if ( !env.BRANCH_NAME ) {
-      echo "No need to create and upload docker image for master branch"
+    if ( env.BRANCH_NAME.contains("feature-") ) {
+      echo "No need to create and upload docker image for feature branch"
       currentBuild.result = 'SUCCESS'
       return
     }
