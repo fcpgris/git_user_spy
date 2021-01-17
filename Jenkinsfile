@@ -90,6 +90,9 @@ spec:
           echo "deploy environment!"
           // generate deployment and service yaml
           def target_env = 'testing'
+          if( env.BRANCH_NAME.contains("release") ) {
+            target_env = 'staging'
+          }
           def docker_image_url = "${repo_url}:${docker_repo_port}/${docker_image_version}"
           echo "docker_image_version=${docker_image_version}"
           def deployment_yaml = readFile(file: 'deployment/deployment.yaml')
